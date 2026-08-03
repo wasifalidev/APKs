@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DT Store — Download Apps</title>
+
+  <!-- Primary Meta -->
+  <meta name="title" content="DT Store — Download Apps" />
+  <meta name="description"
+    content="DT Store is your trusted source to download the latest Android APKs. Fast, safe, and direct downloads." />
+  <meta name="keywords" content="DT Store, APK download, Android apps, free apps, Listlyo" />
+  <meta name="author" content="DT Store" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0a0a0f" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="DT Store — Download Apps" />
+  <meta property="og:description" content="Download the latest Android APKs directly. Fast, safe, no redirects." />
+  <meta property="og:image" content="https://via.placeholder.com/1200x630/0a0a0f/00e5ff?text=DT+Store" />
+  <meta property="og:url" content="https://dtstore.vercel.app" />
+  <meta property="og:site_name" content="DT Store" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="DT Store — Download Apps" />
+  <meta name="twitter:description" content="Download the latest Android APKs directly." />
+  <meta name="twitter:image" content="https://via.placeholder.com/1200x630/0a0a0f/00e5ff?text=DT+Store" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --card: #16161f;
+      --border: #1e1e2e;
+      --accent: #00e5ff;
+      --accent2: #7c3aed;
+      --text: #e8e8f0;
+      --muted: #6b6b80;
+      --success: #00c896;
+      --danger: #ff4757;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Background grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Glow orbs */
+    body::after {
+      content: '';
+      position: fixed;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ===== NAVBAR ===== */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 40px;
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.4rem;
+      letter-spacing: -0.5px;
+      color: var(--text);
+    }
+
+    .nav-logo span {
+      color: var(--accent);
+    }
+
+    .nav-badge {
+      font-size: 0.7rem;
+      font-weight: 500;      padding: 4px 10px;
+      border-radius: 20px;
+      background: rgba(0, 229, 255, 0.1);
+      border: 1px solid rgba(0, 229, 255, 0.2);
+      color: var(--accent);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 80px 20px 60px;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.1s forwards;
+    }
+
+    .hero-eyebrow::before,
+    .hero-eyebrow::after {
+      content: '';
+      width: 30px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.5;
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      margin-bottom: 18px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.2s forwards;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.05rem;
+      color: var(--muted);
+      font-weight: 300;
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.7;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.3s forwards;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 40px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.4s forwards;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 2px;
+    }
+
+    /* ===== SECTION ===== */
+    .section {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px 24px 80px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.5s forwards;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .section-count {
+      font-size: 0.75rem;
+      color: var(--muted);
+      padding: 3px 10px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+    }
+
+    /* ===== GRID ===== */
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    /* ===== CARD ===== */
+    .app-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      opacity: 0;
+      animation: fadeUp 0.5s ease forwards;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .app-card:hover {
+      border-color: rgba(0, 229, 255, 0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 229, 255, 0.1);
+    }
+
+    .app-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .app-card:hover::before {
+      opacity: 1;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .app-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .app-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 16px;
+    }
+
+    .app-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .app-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .app-dev {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .app-version {
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      background: rgba(0, 229, 255, 0.08);
+      border: 1px solid rgba(0, 229, 255, 0.15);
+      color: var(--accent);
+      border-radius: 6px;
+      margin-top: 6px;
+      display: inline-block;
+      font-weight: 500;
+    }
+
+    .app-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 18px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-meta {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .meta-item svg {
+      opacity: 0.6;
+    }
+
+    .tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .tag {
+      font-size: 0.68rem;
+      padding: 3px 9px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ===== DOWNLOAD BTN ===== */
+    .download-btn {
+      width: 100%;
+      padding: 13px 20px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.12), rgba(124, 58, 237, 0.12));
+      border: 1px solid rgba(0, 229, 255, 0.2);
+      color: var(--accent);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .download-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .download-btn:hover::before {
+      opacity: 1;
+    }
+
+    .download-btn:hover {
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 8px 30px rgba(0, 229, 255, 0.25);
+      transform: translateY(-1px);
+    }
+
+    .download-btn span,
+    .download-btn svg {
+      position: relative;
+      z-index: 1;
+    }
+
+    .download-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    .download-btn.loading::before {
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.2), rgba(124, 58, 237, 0.2));
+      opacity: 1;
+    }
+
+    .download-btn.success {
+      border-color: rgba(0, 200, 150, 0.4);
+      background: rgba(0, 200, 150, 0.1);
+      color: var(--success);
+    }
+
+    .download-btn.success::before {
+      display: none;
+    }
+
+    .download-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    /* Progress bar */
+    .progress-wrap {
+      width: 100%;
+      height: 3px;
+      background: var(--border);
+      border-radius: 3px;
+      margin-top: 10px;
+      overflow: hidden;
+      display: none;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      border-radius: 3px;
+      width: 0%;
+      transition: width 0.3s;
+    }
+
+    /* Spinner */
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: currentColor;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 32px 20px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 600px) {
+      nav {
+        padding: 14px 20px;
+      }
+
+      .hero {
+        padding: 60px 20px 40px;
+      }
+
+      .hero-stats {
+        gap: 24px;
+      }
+
+      .apps-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <div class="nav-logo">DT <span>Store</span></div>
+    <div class="nav-badge">Android & Windows</div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow">Official App Store</div>
+    <h1>Download <span>Apps</span><br />Built Different</h1>
+    <p>Safe, fast, and direct APK downloads. No redirects, no ads, no nonsense.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num" id="app-count">1</div>
+        <div class="stat-label">Apps</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">Free</div>
+        <div class="stat-label">Always</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">Direct</div>
+        <div class="stat-label">Downloads</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APPS SECTION -->
+  <main class="section">
+    <div class="section-header">
+      <h2 class="section-title">All Apps</h2>
+      <div class="section-line"></div>
+      <div class="section-count" id="count-badge">1 app</div>
+    </div>
+
+    <div class="apps-grid" id="apps-grid">
+      <!-- Cards injected by JS -->
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 DT Store · Made with ♥ by <a href="#">Wasif Ali</a></p>
+  </footer>
+
+  <script>
+    // =============================================
+    // ADD YOUR APPS HERE
+    // =============================================
+    const apps = [
+      {
+        name: "Listlyo",
+        developer: "Wasif Ali",
+        description: "A simple and modern product listing platform to showcase and organize products easily.",
+        version: "v1.0.3",
+        size: "~57 MB",
+        category: "Shopping",
+        tags: ["ecommerce", "listing"],
+        icon: "📋",
+        url: "/public/Listlyo.apk",
+        fileName: "Listlyo.apk",
+        platform: "Android",
+        delay: "0.1s"
+      },
+      {
+        name: "Tasklyo",
+        developer: "Wasif Ali",
+        description: "A modern task management and productivity app with focus timer and Islamic productivity tools.",
+        version: "v1.4.5",
+        size: "~88 MB",
+        category: "Productivity",
+        tags: ["Tasks", "Lists", "Organizer"],
+        icon: "📋",
+        url: "/public/Tasklyo.apk",
+        fileName: "Tasklyo.apk",
+        platform: "Android",
+        delay: "0.2s"
+      },
+      {
+        name: "Studilyo",
+        developer: "Wasif Ali",
+        description: "A student productivity app with attendance tracker, MCQ practice, and AI CV generator.",
+        version: "v1.1.1",
+        size: "~62 MB",
+        category: "Education",
+        tags: ["Education", "Student", "Organizer"],
+        icon: "📋",
+        url: "/public/Studilyo.apk",
+        fileName: "Studilyo.apk",
+        platform: "Android",
+        delay: "0.3s"
+      },
+      {
+        name: "ToolsStack",
+        developer: "Moazzam Ali",
+        description: "A student productivity app with calculators and formulas.",
+        version: "v1.0.0",
+        size: "~51 MB / ~10 MB",
+        category: "Education",
+        tags: ["Education", "Student", "Organizer"],
+        icon: "📋",
+        platforms: [
+          { type: "Android", url: "/public/ToolsStack.apk", fileName: "ToolsStack.apk" },
+          { type: "Windows", url: "/public/Tools Stack.exe", fileName: "Tools Stack.exe" }
+        ],
+        delay: "0.4s"
+      },
+      {
+        name: "Traffic Racer",
+        developer: "Wasif Ali",
+        description: "A high-speed arcade racing game where you drive through highway traffic, earn cash, and upgrade your cars.",
+        version: "v1.0.0",
+        size: "~44 MB",
+        category: "Games",
+        tags: ["Racing", "Arcade", "Windows"],
+        icon: "🏎️",
+        url: "/public/Traffic Racer.exe",
+        fileName: "Traffic Racer.exe",
+        platform: "Windows",
+        delay: "0.5s"
+      },
+      {
+        name: "Moazzam Cypher",
+        developer: "Moazzam Ali",
+        description: "An advanced encryption and decryption tool to secure your messages and sensitive data.",
+        version: "v1.0.0",
+        size: "~10 MB",
+        category: "Utilities",
+        tags: ["Security", "Encryption", "Windows"],
+        icon: "🔐",
+        url: "/public/Moazzam Cypher.exe",
+        fileName: "Moazzam Cypher.exe",
+        platform: "Windows",
+        delay: "0.6s"
+      },
+      {
+        name: "Scientific Calculator",
+        developer: "Moazzam Ali",
+        description: "A powerful scientific calculator for complex mathematical operations and engineering calculations.",
+        version: "v1.0.0",
+        size: "~10 MB",
+        category: "Education",
+        tags: ["Calculator", "Math", "Windows"],
+        icon: "🔢",
+        url: "/public/Scientific Calculator.exe",
+        fileName: "Scientific Calculator.exe",
+        platform: "Windows",
+        delay: "0.7s"
+      },
+      {
+        name: "Listlyo Seller Center",
+        developer: "Wasif Ali",
+        description: "Seller app for Listlyo to create your store and upload products easily.",
+        version: "v1.0.0",
+        size: "~66 MB",
+        category: "Business",
+        tags: ["ecommerce", "store", "business"],
+        icon: "🏪",
+        url: "/public/Listlyo Seller Center.apk",
+        fileName: "Listlyo Seller Center.apk",
+        platform: "Android",
+        delay: "0.8s"
+      }
+    ];
+
+    // =============================================
+    // RENDER CARDS
+    // =============================================
+    const grid = document.getElementById('apps-grid');
+    document.getElementById('app-count').textContent = apps.length;
+    document.getElementById('count-badge').textContent = `${apps.length} app${apps.length !== 1 ? 's' : ''}`;
+
+    apps.forEach((app, i) => {
+      const iconHTML = app.icon.startsWith('http')
+        ? `<img src="${app.icon}" alt="${app.name}" />`
+        : app.icon;
+
+      const tagsHTML = app.tags.map(t => `<span class="tag">${t}</span>`).join('');
+      
+      const androidIcon = `<svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M17.523 15.3414C17.0601 15.3414 16.6917 14.9664 16.6917 14.496C16.6917 14.0256 17.0601 13.6506 17.523 13.6506C17.9858 13.6506 18.3542 14.0256 18.3542 14.496C18.3542 14.9664 17.9858 15.3414 17.523 15.3414ZM6.47702 15.3414C6.01416 15.3414 5.64573 14.9664 5.64573 14.496C5.64573 14.0256 6.01416 13.6506 6.47702 13.6506C6.93988 13.6506 7.3083 14.0256 7.3083 14.496C7.3083 14.9664 6.93988 15.3414 6.47702 15.3414ZM17.8631 10.3722L19.4975 7.5006C19.6053 7.311 19.5412 7.0692 19.3543 6.96 19.1674 6.8508 18.9292 6.915 18.8214 7.1046L17.1593 10.0212C15.7176 9.3582 14.0988 9 12 9C9.90116 9 8.2824 9.3582 6.84067 10.0212L5.17865 7.1046C5.07085 6.915 4.8326 6.8508 4.64573 6.96C4.45885 7.0692 4.39466 7.311 4.50247 7.5006L6.13693 10.3722C3.15372 11.9982 1.15745 15.0216 1.01166 18.6H22.9883C22.8425 15.0216 20.8463 11.9982 17.8631 10.3722Z"/></svg>`;
+      const windowsIcon = `<svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M0 3.449L9.75 2.1V11.7H0V3.449zm0 17.1L9.75 21.9V12.3H0v8.249zM10.5 2L24 0v11.7H10.5V2zm0 19.9L24 24V12.3H10.5v9.6z"/></svg>`;
+
+      const platforms = app.platforms || [{
+        type: app.platform,
+        url: app.url,
+        fileName: app.fileName
+      }];
+
+      const isMulti = platforms.length > 1;
+      const platformNames = platforms.map(p => p.type).join(' & ');
+      const displayIcon = isMulti ? `${androidIcon} ${windowsIcon}` : (platforms[0].type === 'Windows' ? windowsIcon : androidIcon);
+
+      let buttonsHTML = '';
+      platforms.forEach(p => {
+        const btnIcon = p.type === 'Windows' ? windowsIcon : androidIcon;
+        const btnText = p.type === 'Windows' ? 'Download for Windows' : 'Download for Android';
+        buttonsHTML += `
+          <a class="download-btn" href="${p.url}" download="${p.fileName}">
+            ${btnIcon}
+            <span>${btnText}</span>
+          </a>
+        `;
+      });
+
+      grid.innerHTML += `
+        <div class="app-card" style="animation-delay:${app.delay}">
+          <div class="card-top">
+            <div class="app-icon">${iconHTML}</div>
+            <div class="app-info">
+              <div class="app-name">${app.name}</div>
+              <div class="app-dev">${app.developer}</div>
+              <div class="app-version">
+                ${displayIcon} <span>${platformNames} · ${app.version}</span>
+              </div>
+            </div>
+          </div>
+          <p class="app-desc">${app.description}</p>
+          <div class="card-meta">
+            <div class="meta-item">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+              ${app.size}
+            </div>
+            <div class="meta-item">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              ${app.category}
+            </div>
+          </div>
+          <div class="tags">${tagsHTML}</div>
+          <div class="download-btns">
+            ${buttonsHTML}
+          </div>
+        </div>
+      `;
+    });
+  </script>
+</body>
+
+</html>
